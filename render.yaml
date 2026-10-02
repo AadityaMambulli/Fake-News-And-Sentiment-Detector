@@ -32,7 +32,7 @@ services:
       - key: SENTIMENT_MODEL
         value: distilbert/distilbert-base-uncased-finetuned-sst-2-english
       - key: FRONTEND_URL
-        value: https://fake-news-frontend.onrender.com
+        value: https://fake-news-frontend-iiij.onrender.com
 
   # React / Vite Frontend Static Site
   - type: web
