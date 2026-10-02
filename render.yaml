@@ -1,0 +1,49 @@
+databases:
+  - name: fake-news-db
+    databaseName: fake_news_db
+    user: fake_news_user
+    plan: free
+
+services:
+  # Flask Backend Web Service
+  - type: web
+    name: fake-news-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fake-news-db
+          property: connectionString
+      - key: FAKE_NEWS_MODEL
+        value: typeform/distilbert-base-uncased-mnli
+      - key: SENTIMENT_MODEL
+        value: distilbert/distilbert-base-uncased-finetuned-sst-2-english
+      - key: FRONTEND_URL
+        value: https://fake-news-frontend.onrender.com
+
+  # React / Vite Frontend Static Site
+  - type: static
+    name: fake-news-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        value: https://fake-news-backend.onrender.com/api
