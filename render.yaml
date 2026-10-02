@@ -47,4 +47,5 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://fake-news-backend.onrender.com/api
+        value: https://fake-news-backend-45zv.onrender.com/api 
+        #corrected the api url
