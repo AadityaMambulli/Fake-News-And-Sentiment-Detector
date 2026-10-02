@@ -35,8 +35,9 @@ services:
         value: https://fake-news-frontend.onrender.com
 
   # React / Vite Frontend Static Site
-  - type: static
+  - type: web
     name: fake-news-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
